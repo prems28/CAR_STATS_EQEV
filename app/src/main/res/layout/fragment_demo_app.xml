@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:layout_height="match_parent"
+    tools:context="com.io.mouli.vhal_demo_app.DemoActivity">
+
+
+    <TextView
+        android:id="@+id/tvSendSignal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border_bg"
+        android:padding="@dimen/_10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="@string/send_can_signal"
+        android:layout_marginStart="@dimen/_30dp"
+        android:layout_marginEnd="@dimen/_30dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:textAlignment="center"
+        android:textSize="@dimen/_16sp" />
+
+    <TextView
+        android:id="@+id/tvRecieveSignal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:padding="@dimen/_10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:background="@drawable/textview_border_bg"
+        android:layout_marginStart="@dimen/_30dp"
+        android:layout_marginEnd="@dimen/_30dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:textSize="@dimen/_16sp"
+        android:text="@string/recieve_can_signal" />
+</LinearLayout>
