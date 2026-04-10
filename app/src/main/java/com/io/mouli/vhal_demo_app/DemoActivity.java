@@ -32,7 +32,7 @@ public class DemoActivity extends AppCompatActivity {
     }
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("GPIO Sample App");
+        toolbar.setTitle(R.string.app_name);
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 

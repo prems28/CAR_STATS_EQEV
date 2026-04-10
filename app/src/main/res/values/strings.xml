@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">VHAL Demo</string>
     <string name="send_can_signal">Send Can Signal</string>
     <string name="recieve_can_signal">Recieve Can Signal</string>
     <string name="received_value_is">Received value is :</string>
