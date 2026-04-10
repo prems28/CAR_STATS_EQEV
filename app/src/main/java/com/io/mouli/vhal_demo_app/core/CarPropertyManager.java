@@ -3,6 +3,7 @@ package com.io.mouli.vhal_demo_app.core;
 
 import android.car.Car;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.io.mouli.vhal_demo_app.handler.BasePropertyHandler;
@@ -33,11 +34,29 @@ public class CarPropertyManager {
 
     private void connectToCar(Context context) {
         Log.i(TAG, "ConnectToCar()");
-        Car mCarApiClient = Car.createCar(context);
-        boolean isCarConnected = mCarApiClient.isConnected();
-        Log.i(TAG, String.valueOf(isCarConnected));
-        if (isCarConnected) {
-            handleCarLifeCycleEvent(mCarApiClient, isCarConnected);
+        if (!context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)) {
+            Log.w(TAG, "Skipping Car API: not an Android Automotive device (phone/tablet emulators have no car_service / VHAL).");
+            return;
+        }
+        Car mCarApiClient = null;
+        try {
+            mCarApiClient = Car.createCar(context);
+            boolean isCarConnected = mCarApiClient.isConnected();
+            Log.i(TAG, "isConnected=" + isCarConnected);
+            if (isCarConnected) {
+                handleCarLifeCycleEvent(mCarApiClient, isCarConnected);
+            } else {
+                Log.w(TAG, "Car service present but not connected yet.");
+            }
+        } catch (RuntimeException e) {
+            Log.w(TAG, "Car API unavailable: " + e.getMessage());
+        } finally {
+            if (mCarApiClient != null && mCarPropertyManager == null) {
+                try {
+                    mCarApiClient.disconnect();
+                } catch (RuntimeException ignored) {
+                }
+            }
         }
     }
 
@@ -96,11 +115,8 @@ public class CarPropertyManager {
      * Method for un registering all property id
      * */
     public void unRegisterAllpropertyId() {
-        if (mCarPropertyManager != null) {
-
+        if (mCarPropertyManager != null && iBasePropertyHandler != null) {
             iBasePropertyHandler.unRegisterProperties();
-
-
         }
     }
 

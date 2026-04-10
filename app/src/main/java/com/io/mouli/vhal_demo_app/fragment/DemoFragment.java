@@ -78,10 +78,11 @@ public class DemoFragment extends Fragment {
     private void observeBlindSpotViewModel() {
         if (viewModel.observeSignal() != null) {
             viewModel.observeSignal().observe(getViewLifecycleOwner(), value -> {
+                if (value == null || rxText == null) {
+                    return;
+                }
                 Log.i(TAG, getString(R.string.vehiclesideforblindmonitoring) + value);
-
                 rxText.setText(String.format("%s%s", getString(R.string.received_value_is), value.toString()));
-
             });
         }
     }

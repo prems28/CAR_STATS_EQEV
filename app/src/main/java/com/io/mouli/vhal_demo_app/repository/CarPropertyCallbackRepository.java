@@ -37,26 +37,30 @@ public class CarPropertyCallbackRepository {
         Log.i(TAG, " getVulnerableRoadUserMonitoring ");
         return this.vehicleSideVulnerableRoadUser;
     }
-    public void setVmSignal(int val){
-        getCarPropertyHandlerInstance();
-        carPropertyHandler.setSignalValue(val);
+    public void setVmSignal(int val) {
+        try {
+            getCarPropertyHandlerInstance();
+            if (carPropertyHandler != null) {
+                carPropertyHandler.setSignalValue(val);
+            }
+        } catch (Throwable t) {
+            Log.w(TAG, "setVmSignal: " + t.getMessage());
+        }
     }
-    public void sendSignal(int vehicleSide){
-        //side 0 == BothSideObjectDetected
-        // side 1 = LeftSideObjectDetected
-        // side 2 = RightSideObjectDetected
-        Log.i(TAG, " vehicleSide "+ vehicleSide);
-        this.vehicleSideVulnerableRoadUser.setValue(vehicleSide);
+
+    /**
+     * CarPropertyManager callbacks run on a binder thread — use postValue, not setValue.
+     */
+    public void sendSignal(int vehicleSide) {
+        Log.i(TAG, " vehicleSide " + vehicleSide);
+        this.vehicleSideVulnerableRoadUser.postValue(vehicleSide);
     }
     public LiveData<Integer> getGearSignalValue(){
         Log.i(TAG, " getVulnerableRoadUserMonitoring ");
         return this.gearSelection;
     }
-    public void sendGearSignal(int vehicleSide){
-        //side 0 == BothSideObjectDetected
-        // side 1 = LeftSideObjectDetected
-        // side 2 = RightSideObjectDetected
-        Log.i(TAG, " vehicleSide "+ vehicleSide);
-        this.gearSelection.setValue(vehicleSide);
+    public void sendGearSignal(int vehicleSide) {
+        Log.i(TAG, " vehicleSide " + vehicleSide);
+        this.gearSelection.postValue(vehicleSide);
     }
 }

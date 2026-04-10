@@ -45,12 +45,14 @@ public class CarPropertyServiceManager extends Service  {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, " onDestroy");
-        carPropertyManager.unRegisterAllpropertyId();
+        if (carPropertyManager != null) {
+            carPropertyManager.unRegisterAllpropertyId();
+        }
     }
 
-    static class CarInfoServiceClassBinder extends Binder{
-        public CarPropertyServiceManager getService(){
-            return new CarPropertyServiceManager();
+    private final class CarInfoServiceClassBinder extends Binder {
+        CarPropertyServiceManager getService() {
+            return CarPropertyServiceManager.this;
         }
     }
 
