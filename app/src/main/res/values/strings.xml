@@ -1,8 +1,17 @@
 <resources>
-    <string name="app_name">VHAL Demo</string>
+    <string name="app_name">Car Stats</string>
     <string name="send_can_signal">Send Can Signal</string>
     <string name="recieve_can_signal">Recieve Can Signal</string>
     <string name="received_value_is">Received value is :</string>
     <string name="vehiclesideforblindmonitoring">vehicleSideForBlindMonitoring</string>
     <string name="onclick_button_1_triggered">Onclick button 1 triggered</string>
+    <string name="ev_battery_level_label">EV State of Charge:</string>
+    <string name="refresh">⟳ Refresh</string>
+    <string name="ev_estimated_range_label">Estimated Range:</string>
+    <string name="ev_charge_state_label">EV Charge State:</string>
+    <string name="ev_battery_capacity_label">EV Battery Capacity:</string>
+    <string name="ev_charge_port_open_label">EV Charge Port Open:</string>
+    <string name="ev_charge_port_connected_label">EV Charge Port Connected:</string>
+    <string name="ev_port_location_label">EV Port Location:</string>
+    <string name="value_not_available">N/A</string>
 </resources>

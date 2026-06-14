@@ -12,6 +12,12 @@
     <!-- Writing exterior / work-light style properties often requires this on AAOS -->
     <uses-permission android:name="android.car.permission.CONTROL_CAR_EXTERIOR_LIGHTS"/>
     <uses-permission android:name="android.car.permission.CAR_EXTERIOR_LIGHTS"/>
+    <!-- Required for EV_BATTERY_LEVEL, EV_CURRENT_BATTERY_CAPACITY and EV_CHARGE_STATE -->
+    <uses-permission android:name="android.car.permission.CAR_ENERGY"/>
+    <!-- Required for EV_CHARGE_PORT_OPEN / EV_CHARGE_PORT_CONNECTED -->
+    <uses-permission android:name="android.car.permission.CAR_ENERGY_PORTS"/>
+    <!-- Required for INFO_EV_PORT_LOCATION -->
+    <uses-permission android:name="android.car.permission.CAR_INFO"/>
 
     <application
         android:allowBackup="true"
