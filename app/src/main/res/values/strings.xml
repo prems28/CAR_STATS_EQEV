@@ -13,5 +13,6 @@
     <string name="ev_charge_port_open_label">EV Charge Port Open:</string>
     <string name="ev_charge_port_connected_label">EV Charge Port Connected:</string>
     <string name="ev_port_location_label">EV Port Location:</string>
+    <string name="ev_min_estimated_range_label">Min Est Range:</string>
     <string name="value_not_available">N/A</string>
 </resources>

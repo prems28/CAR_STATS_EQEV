@@ -1,4 +1,12 @@
-🚗 Android Automotive – Car Property & VHAL Integration Demo
+This project CARSTATS is a simple view of the Chevy Equinox battery stats. Its a deriavation of the  VHAL project.
+
+BELOW is the properties and stuff I have used.
+
+https://github.com/chandramouli369/VHAL_AAOS_Project
+
+
+🚗 
+Android Automotive – Car Property & VHAL Integration Demo
 This project demonstrates how to work with Android Automotive Car APIs to interact with Vehicle HAL (VHAL) using CarPropertyManager.
 
 The application starts automatically after vehicle boot and runs as a background service. It establishes a connection with the car system, registers required vehicle property IDs, retrieves default values from VHAL, and listens for real-time property changes. When a vehicle property changes, the app processes the update and forwards the signal to a repository layer for further handling, such as UI updates or business logic.

@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    namespace 'com.io.mouli.vhal_demo_app'
-    compileSdk 35
+    namespace 'com.premsethueqev.clusterio'
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.premsethueqev.clusterio"
         minSdk 31
         targetSdk 35
-        versionCode 6
+        versionCode 8
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

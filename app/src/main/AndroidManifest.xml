@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:car="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.io.mouli.vhal_demo_app">
+    package="com.premsethueqev.clusterio">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.car.permission.CAR_POWERTRAIN"/>
@@ -31,20 +32,23 @@
         tools:targetApi="31">
         <activity
             android:name=".DemoActivity"
-            android:exported="true">
+            android:exported="true" >
+        <meta-data
+            android:name="distractionOptimized"
+            android:value="true" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <receiver android:name="com.io.mouli.vhal_demo_app.receiver.BootCompleteReceiver"
+        <receiver android:name="com.premsethueqev.clusterio.receiver.BootCompleteReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name= "android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <service android:name="com.io.mouli.vhal_demo_app.service.CarPropertyServiceManager"
+        <service android:name="com.premsethueqev.clusterio.service.CarPropertyServiceManager"
             android:exported="false"/>
     </application>
 
