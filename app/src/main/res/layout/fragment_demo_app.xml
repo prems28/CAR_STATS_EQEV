@@ -1,174 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context="com.premsethueqev.clusterio.DemoActivity">
 
-    <!-- Refresh button top-right -->
-    <Button
-        android:id="@+id/btnRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="@dimen/_30dp"
-        android:layout_marginTop="@dimen/_10dp"
-        android:text="@string/refresh"
-        android:textColor="@color/black" />
-
-    <!-- Row 1: SoC | Charge State -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/_20dp"
-        android:layout_marginStart="@dimen/_30dp"
-        android:layout_marginEnd="@dimen/_30dp">
+        android:orientation="vertical"
+        android:padding="@dimen/_20dp">
 
-        <TextView
-            android:id="@+id/tvEvBatteryLevel"
-            android:layout_width="0dp"
+        <!-- Row 1: SoC | Charge State | Refresh icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginEnd="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_battery_level_label" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_20dp">
 
-        <TextView
-            android:id="@+id/tvEvChargeState"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvEvBatteryLevel"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/textview_border_bg"
+                android:textSize="@dimen/_16sp"
+                android:text="@string/ev_battery_level_label" />
+
+            <TextView
+                android:id="@+id/tvEvChargeState"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/textview_border_bg"
+                android:textSize="@dimen/_16sp"
+                android:text="@string/ev_charge_state_label" />
+
+            <!-- Refresh icon circle -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/textview_border_bg">
+
+                <ImageView
+                    android:id="@+id/ivRefresh"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_refresh"
+                    android:contentDescription="Refresh" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Refresh"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Row 2: Battery Capacity | Estimated Range | Port Open icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginStart="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_charge_state_label" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_20dp">
 
-    <!-- Row 2: Battery Capacity | Estimated Range -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/_20dp"
-        android:layout_marginStart="@dimen/_30dp"
-        android:layout_marginEnd="@dimen/_30dp">
+            <TextView
+                android:id="@+id/tvEvBatteryCapacity"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/textview_border_bg"
+                android:textSize="@dimen/_16sp"
+                android:text="@string/ev_battery_capacity_label" />
 
-        <TextView
-            android:id="@+id/tvEvBatteryCapacity"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvEvEstimatedRange"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/textview_border_bg"
+                android:textSize="@dimen/_16sp"
+                android:text="@string/ev_estimated_range_label" />
+
+            <!-- Port Open icon circle -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/textview_border_bg">
+
+                <ImageView
+                    android:id="@+id/ivChargePortOpen"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_charge_port_open"
+                    android:contentDescription="Charge Port Open" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Port Open"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Row 3: Min Est Range | (spare) | Port Connected icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginEnd="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_battery_capacity_label" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_20dp">
 
-        <TextView
-            android:id="@+id/tvEvEstimatedRange"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginStart="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_estimated_range_label" />
+            <TextView
+                android:id="@+id/tvEvMinEstimatedRange"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/textview_border_bg"
+                android:textSize="@dimen/_16sp"
+                android:text="@string/ev_min_estimated_range_label" />
 
-        <TextView
-            android:id="@+id/tvEvMinEstimatedRange"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginStart="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_min_estimated_range_label" />
-    </LinearLayout>
+            <!-- Spare placeholder -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
 
-    <!-- Row 3: Port Open | Port Connected -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/_20dp"
-        android:layout_marginStart="@dimen/_30dp"
-        android:layout_marginEnd="@dimen/_30dp">
+            <!-- Port Connected icon circle -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/textview_border_bg">
 
+                <ImageView
+                    android:id="@+id/ivChargePortConnected"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_charge_port_connected"
+                    android:contentDescription="Charge Port Connected" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Connected"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Hidden views to preserve data binding -->
         <TextView
             android:id="@+id/tvEvChargePortOpen"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginEnd="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_charge_port_open_label" />
+            android:layout_height="0dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvEvChargePortConnected"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:layout_marginStart="@dimen/_10dp"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_charge_port_connected_label" />
-    </LinearLayout>
-
-    <!-- Row 4: Port Location (hidden) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/_20dp"
-        android:layout_marginStart="@dimen/_30dp"
-        android:layout_marginEnd="@dimen/_30dp"
-        android:visibility="gone">
+            android:layout_height="0dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvEvPortLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:background="@drawable/textview_border_bg"
-            android:textSize="@dimen/_26sp"
-            android:text="@string/ev_port_location_label" />
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
 
-</LinearLayout>
+        <!-- Hidden refresh button to preserve binding -->
+        <Button
+            android:id="@+id/btnRefresh"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>
