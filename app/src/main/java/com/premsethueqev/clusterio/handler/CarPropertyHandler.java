@@ -4,6 +4,8 @@ import android.car.VehicleAreaType;
 import android.car.VehiclePropertyIds;
 import android.car.hardware.CarPropertyValue;
 import android.car.hardware.property.CarPropertyManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.premsethueqev.clusterio.constant.ExteriorLightConstant;
@@ -12,6 +14,15 @@ import com.premsethueqev.clusterio.constant.ExteriorLightConstant;
 public class CarPropertyHandler extends BasePropertyHandler {
 
     private static final String TAG = CarPropertyHandler.class.getName();
+
+    // --- Miles driven since last charge ---
+    private static final String PREFS_NAME = "clusterio_trip";
+    private static final String KEY_ODO_AT_CHARGE_KM = "odo_at_charge_km";
+    private static final String KEY_CHARGE_END_TIME = "charge_end_time_ms";
+    private static final int EV_CHARGE_STATE_CHARGING = 1; // AOSP EvChargeState.CHARGING
+    private static final float KM_TO_MILES = 0.621371f;
+    private int lastChargeState = -1;
+    private float lastOdometerKm = -1f;
 
     public CarPropertyHandler(CarPropertyManager carPropertyManager) {
         super(carPropertyManager);
@@ -29,6 +40,7 @@ public class CarPropertyHandler extends BasePropertyHandler {
         propertyList.add(VehiclePropertyIds.EV_CHARGE_PORT_OPEN);
         propertyList.add(VehiclePropertyIds.EV_CHARGE_PORT_CONNECTED);
         propertyList.add(VehiclePropertyIds.INFO_EV_PORT_LOCATION);
+        propertyList.add(VehiclePropertyIds.PERF_ODOMETER);
          Log.i(TAG,"Property generated.");
 
     }
@@ -48,8 +60,14 @@ public class CarPropertyHandler extends BasePropertyHandler {
             case VehiclePropertyIds.EV_BATTERY_LEVEL:
                 sendingEvBatteryLevelToRepo(valueToUiFloat(carPropertyValue.getValue()));
                 break;
-            case ExteriorLightConstant.EV_CHARGE_STATE_FALLBACK:
-                sendingEvChargeStateToRepo(valueToUiInt(carPropertyValue.getValue()));
+            case ExteriorLightConstant.EV_CHARGE_STATE_FALLBACK: {
+                int state = valueToUiInt(carPropertyValue.getValue());
+                onChargeStateChanged(state);
+                sendingEvChargeStateToRepo(state);
+                break;
+            }
+            case VehiclePropertyIds.PERF_ODOMETER:
+                onOdometerChanged(valueToUiFloat(carPropertyValue.getValue()));
                 break;
             case VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY:
                 sendingEvBatteryCapacityToRepo(valueToUiFloat(carPropertyValue.getValue()));
@@ -147,6 +165,62 @@ public class CarPropertyHandler extends BasePropertyHandler {
         Log.i(TAG, "EV port location " + location);
         carPropertyCallbackRepository.sendEvPortLocation(location);
     }
+    // ---------------------------------------------------------------------
+    // Miles since last charge
+    // ---------------------------------------------------------------------
+
+    private SharedPreferences prefs() {
+        Context ctx = com.premsethueqev.clusterio.core.CarPropertyManager.context;
+        return ctx == null ? null : ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+    /** Called for every EV_CHARGE_STATE update; a CHARGING -> anything-else transition ends a charge. */
+    private void onChargeStateChanged(int newState) {
+        boolean chargeJustEnded = lastChargeState == EV_CHARGE_STATE_CHARGING
+                && newState != EV_CHARGE_STATE_CHARGING;
+        lastChargeState = newState;
+        if (!chargeJustEnded) {
+            return;
+        }
+        float odoKm = readOdometerKm();
+        SharedPreferences p = prefs();
+        if (odoKm < 0 || p == null) {
+            Log.w(TAG, "Charge ended but odometer/prefs unavailable; baseline not recorded");
+            return;
+        }
+        p.edit().putFloat(KEY_ODO_AT_CHARGE_KM, odoKm)
+                .putLong(KEY_CHARGE_END_TIME, System.currentTimeMillis()).apply();
+        Log.i(TAG, "Charge ended, odometer baseline (km) = " + odoKm);
+        publishMilesSinceCharge(odoKm);
+    }
+
+    private void onOdometerChanged(float odoKm) {
+        lastOdometerKm = odoKm;
+        publishMilesSinceCharge(odoKm);
+    }
+
+    /** Returns odometer in km, or -1 if it can't be read (e.g. CAR_MILEAGE not granted). */
+    private float readOdometerKm() {
+        if (mCarPropertyManager != null) {
+            try {
+                lastOdometerKm = mCarPropertyManager.getFloatProperty(
+                        VehiclePropertyIds.PERF_ODOMETER, VehicleAreaType.VEHICLE_AREA_TYPE_GLOBAL);
+            } catch (Throwable t) {
+                Log.w(TAG, "PERF_ODOMETER unavailable: " + t.getMessage());
+            }
+        }
+        return lastOdometerKm;
+    }
+
+    private void publishMilesSinceCharge(float odoKm) {
+        SharedPreferences p = prefs();
+        if (p == null || odoKm < 0 || !p.contains(KEY_ODO_AT_CHARGE_KM)) {
+            return; // no baseline yet: UI keeps showing N/A
+        }
+        float miles = Math.max(0f, odoKm - p.getFloat(KEY_ODO_AT_CHARGE_KM, odoKm)) * KM_TO_MILES;
+        carPropertyCallbackRepository.sendMilesSinceCharge(miles);
+    }
+
     public void setSignalValue(int val) {
         if (mCarPropertyManager == null) {
             sendingSignalToRepo(val);
@@ -192,10 +266,12 @@ public class CarPropertyHandler extends BasePropertyHandler {
             try {
                 int chargeState = mCarPropertyManager.getIntProperty(
                         ExteriorLightConstant.EV_CHARGE_STATE_FALLBACK, VehicleAreaType.VEHICLE_AREA_TYPE_GLOBAL);
+                onChargeStateChanged(chargeState);
                 sendingEvChargeStateToRepo(chargeState);
             } catch (Throwable t) {
                 Log.w(TAG, "EV_CHARGE_STATE unavailable: " + t.getMessage());
             }
+            publishMilesSinceCharge(readOdometerKm());
             try {
                 float capacityWh = mCarPropertyManager.getFloatProperty(
                         VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY, VehicleAreaType.VEHICLE_AREA_TYPE_GLOBAL);

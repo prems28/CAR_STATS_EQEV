@@ -4,6 +4,8 @@ BELOW is the properties and stuff I have used.
 
 https://github.com/chandramouli369/VHAL_AAOS_Project
 
+The app displays basic information about the battery and vehicle.
+
 
 🚗 
 Android Automotive – Car Property & VHAL Integration Demo

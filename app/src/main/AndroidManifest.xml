@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:car="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.premsethueqev.clusterio">
-
-    <!-- uses-permission android:name="android.permission.INTERNET" -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.car.permission.CAR_POWERTRAIN"/>
     <uses-permission android:name="android.car.permission.CONTROL_CAR_DOORS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -17,11 +15,11 @@
     <uses-permission android:name="android.car.permission.CAR_ENERGY"/>
     <!-- Required for EV_CHARGE_PORT_OPEN / EV_CHARGE_PORT_CONNECTED -->
     <uses-permission android:name="android.car.permission.CAR_ENERGY_PORTS"/>
+    <!-- Required for PERF_ODOMETER (miles since last charge) -->
+    <uses-permission android:name="android.car.permission.CAR_MILEAGE"/>
     <!-- Required for INFO_EV_PORT_LOCATION -->
     <uses-permission android:name="android.car.permission.CAR_INFO"/>
-    <uses-feature
-        android:name="android.hardware.type.automotive"
-        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -34,24 +32,19 @@
         tools:targetApi="31">
         <activity
             android:name=".DemoActivity"
-            android:exported="true" >
-        <meta-data
-            android:name="distractionOptimized"
-            android:value="true" />
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <receiver android:name="com.premsethueqev.clusterio.receiver.BootCompleteReceiver"
-            android:exported="true">
+        <receiver android:name="com.premsethueqev.clusterio.receiver.BootCompleteReceiver"            android:exported="true">
             <intent-filter>
                 <action android:name= "android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <service android:name="com.premsethueqev.clusterio.service.CarPropertyServiceManager"
-            android:exported="false"/>
+        <service android:name="com.premsethueqev.clusterio.service.CarPropertyServiceManager"            android:exported="false"/>
     </application>
 
 </manifest>

@@ -39,6 +39,10 @@ public class VhalViewModel extends ViewModel {
         return repository1.getEvPortLocation();
     }
 
+    public LiveData<Float> observeMilesSinceCharge() {
+        return repository1.getMilesSinceCharge();
+    }
+
     public void setValue(int val){
         repository1.setVmSignal(val);
     }

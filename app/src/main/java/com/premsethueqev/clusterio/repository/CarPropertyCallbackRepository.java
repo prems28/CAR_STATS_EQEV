@@ -14,12 +14,13 @@ public class CarPropertyCallbackRepository {
     private static CarPropertyCallbackRepository repository;
     private static final String TAG = CarPropertyCallbackRepository.class.getName();
     private MutableLiveData<Integer> vehicleSideVulnerableRoadUser = new MutableLiveData<>();
-    private final MutableLiveData<Float> evBatteryLevel = new MutableLiveData<>();
+    private MutableLiveData<Float> evBatteryLevel = new MutableLiveData<>();
     private MutableLiveData<Integer> evChargeState = new MutableLiveData<>();
     private MutableLiveData<Float> evBatteryCapacity = new MutableLiveData<>();
     private MutableLiveData<Integer> evChargePortOpen = new MutableLiveData<>();
     private MutableLiveData<Integer> evChargePortConnected = new MutableLiveData<>();
     private MutableLiveData<Integer> evPortLocation = new MutableLiveData<>();
+    private MutableLiveData<Float> milesSinceCharge = new MutableLiveData<>();
     private CarPropertyHandler carPropertyHandler;
 
     public void getCarPropertyHandlerInstance(){
@@ -143,5 +144,17 @@ public class CarPropertyCallbackRepository {
     public void sendEvPortLocation(int location) {
         Log.i(TAG, "evPortLocation " + location);
         this.evPortLocation.postValue(location);
+    }
+
+    public LiveData<Float> getMilesSinceCharge() {
+        return this.milesSinceCharge;
+    }
+
+    /**
+     * @param miles miles driven since the last charge session ended (PERF_ODOMETER delta)
+     */
+    public void sendMilesSinceCharge(float miles) {
+        Log.i(TAG, "milesSinceCharge " + miles);
+        this.milesSinceCharge.postValue(miles);
     }
 }

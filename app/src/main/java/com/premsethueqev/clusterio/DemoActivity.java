@@ -9,12 +9,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.premsethueqev.clusterio.R;
 import com.premsethueqev.clusterio.fragment.DemoFragment;
+import com.premsethueqev.clusterio.viewModel.VhalViewModel;
 import com.premsethueqev.clusterio.service.CarPropertyServiceManager;
 
 public class DemoActivity extends AppCompatActivity {
@@ -34,6 +37,21 @@ public class DemoActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setNavigationOnClickListener(v -> finish());
+        showAppVersion();
+    }
+
+    /** Shows "v<versionName> (<versionCode>)" in the lower-left corner. */
+    private void showAppVersion() {
+        TextView tvVersion = findViewById(R.id.tvAppVersion);
+        if (tvVersion == null) {
+            return;
+        }
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            tvVersion.setText(String.format("v%s (%d)", info.versionName, info.getLongVersionCode()));
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.w(TAG, "Could not read app version: " + e.getMessage());
+        }
     }
 
     public void changeFragment() {
